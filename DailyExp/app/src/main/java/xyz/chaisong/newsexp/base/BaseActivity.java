@@ -19,6 +19,9 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import xyz.chaisong.newsexp.R;
+import xyz.chaisong.newsexp.base.lifecycle.IComponentContainer;
+import xyz.chaisong.newsexp.base.lifecycle.LifeCycleComponent;
+import xyz.chaisong.newsexp.base.lifecycle.LifeCycleComponentManager;
 import xyz.chaisong.newsexp.model.AppEnum;
 import xyz.chaisong.newsexp.util.LocalDisplay;
 
@@ -26,13 +29,15 @@ import xyz.chaisong.newsexp.util.LocalDisplay;
  * Created by song on 16/10/27.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements IComponentContainer {
 
     protected final String TAG = getClass().getSimpleName();
 
     //activity启动动画中添加这个参数，就能实现简单的渐隐渐现、上下弹出和所有滑出三种效果
     public static final String KEY_ActivityAnim = "KEYActivityAnim";
     protected AppEnum.ActivityAnim mActivityAnim;
+
+    private LifeCycleComponentManager mComponentContainer = new LifeCycleComponentManager();
 
     protected abstract int getLayoutId();
 
@@ -64,9 +69,33 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mComponentContainer.onBecomeVisible();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mComponentContainer.onBecomeInvisible();
+    }
+
+    @Override
     protected void onDestroy() {
         busUnRegister();
         super.onDestroy();
+        mComponentContainer.onDestroy();
+    }
+
+    /**
+     * ===========================================================
+     * implements {@link IComponentContainer}
+     * ===========================================================
+     */
+
+    @Override
+    public void addComponent(LifeCycleComponent component) {
+        mComponentContainer.addComponent(component);
     }
 
     @Override

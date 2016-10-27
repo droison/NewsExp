@@ -6,14 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import xyz.chaisong.newsexp.base.lifecycle.IComponentContainer;
+import xyz.chaisong.newsexp.base.lifecycle.LifeCycleComponent;
+import xyz.chaisong.newsexp.base.lifecycle.LifeCycleComponentManager;
+
 /**
  * Created by song on 16/10/27.
  */
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements IComponentContainer{
     private View contentView = null;
 
     protected final String TAG = getClass().getSimpleName();
+
+    private LifeCycleComponentManager mComponentContainer = new LifeCycleComponentManager();
 
     protected abstract int getLayoutId();
 
@@ -44,14 +50,37 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        busUnRegister();
-        super.onDestroy();
-    }
-
-    @Override
     public void onDestroyView() {
         ((ViewGroup) contentView.getParent()).removeView(contentView);
         super.onDestroyView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mComponentContainer.onBecomeVisible();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mComponentContainer.onBecomeInvisible();
+    }
+
+    @Override
+    public void onDestroy() {
+        busUnRegister();
+        super.onDestroy();
+        mComponentContainer.onDestroy();
+    }
+
+    /**
+     * ===========================================================
+     * Implements {@link IComponentContainer}
+     * ===========================================================
+     */
+    @Override
+    public void addComponent(LifeCycleComponent component) {
+        mComponentContainer.addComponent(component);
     }
 }
