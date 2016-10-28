@@ -15,7 +15,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name="xyz.chaisong.newsexp.base.BaseApplication"
+        android:name="xyz.chaisong.newsexp.base.UIApplication"
         android:theme="@style/AppBaseTheme">
         <activity android:name="xyz.chaisong.newsexp.root.MainActivity">
             <intent-filter>

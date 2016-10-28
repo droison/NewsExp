@@ -9,8 +9,8 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
+import xyz.chaisong.lib.app.BaseActivity;
 import xyz.chaisong.newsexp.R;
-import xyz.chaisong.newsexp.base.BaseActivity;
 import xyz.chaisong.newsexp.feed.FeedBaseFragment;
 
 public class MainActivity extends BaseActivity {
