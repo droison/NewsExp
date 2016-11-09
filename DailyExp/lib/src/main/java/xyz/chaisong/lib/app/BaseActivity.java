@@ -62,8 +62,8 @@ public abstract class BaseActivity extends AppCompatActivity implements ICompone
         setContentView(getLayoutId());
 
         mActivityAnim = (AppEnum.ActivityAnim) getIntent().getSerializableExtra(KEY_ActivityAnim);
-        initDatas();
         initViews();
+        initDatas();
         busReigister();
     }
 
