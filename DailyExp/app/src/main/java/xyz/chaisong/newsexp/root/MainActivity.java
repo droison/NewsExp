@@ -16,6 +16,8 @@ import xyz.chaisong.newsexp.feed.FeedBaseFragment;
 public class MainActivity extends BaseActivity {
     private String[] titles = new String[]{"推荐", "热点", "赣州", "社会","订阅", "娱乐", "科技", "汽车","体育", "财经", "美女"};
 
+    MainPresenter mPresenter;
+
     @Override
     protected void initViews() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
